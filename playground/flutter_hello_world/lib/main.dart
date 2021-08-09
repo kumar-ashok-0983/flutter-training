@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hello_world/new_screen.dart';
+import 'package:flutter_hello_world/tiago_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.amber,
       ),
-      home: NewScreen(),
+      // home: NewScreen(),
+      home: TiagoHomePage(),
     );
   }
 }
