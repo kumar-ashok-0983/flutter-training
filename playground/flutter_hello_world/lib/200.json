@@ -1,110 +1,8 @@
-import 'dart:convert';
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-
-class NewScreen extends StatelessWidget {
-  NewScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('App from scratch'),
-      ),
-      body: FutureBuilder(
-        future: fetchTodos(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              List<Todo> todoList = snapshot.data!;
-              return ListView.builder(
-                itemCount: todoList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return TodoRow(todoList[index]);
-                },
-              );
-            case ConnectionState.none:
-              return Text('None');
-            case ConnectionState.waiting:
-              return Center(child: CircularProgressIndicator());
-            case ConnectionState.active:
-              return Text('Active');
-          }
-        },
-      ),
-      // color: Colors.pink,
-    );
-  }
-}
-
-class TodoRow extends StatelessWidget {
-  final Todo myTodo;
-
-  TodoRow(this.myTodo);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        child: ListTile(
-          leading: Checkbox(
-            value: myTodo.completed,
-            onChanged: (bool? value) {},
-          ),
-          title: Text(myTodo.title),
-        ),
-      ),
-    );
-  }
-}
-
-class Todo {
-  final bool completed;
-  final String title;
-
-  Todo({required this.completed, required this.title});
-
-  factory Todo.fromJson(Map<String, dynamic> json) {
-    return Todo(completed: json['completed'], title: json['title']);
-  }
-}
-
-// Future<List<Todo>> fetchTodos() async {
-//   final response =
-//       await http.get(Uri.parse('https://jsonplaceholder.typicode.com/todos'));
-
-//   if (response.statusCode == 200) {
-//     List listTodosJson = jsonDecode(response.body);
-//     List<Todo> listTodos = [];
-//     for (int i = 0; i < listTodosJson.length; i++) {
-//       listTodos.add(Todo.fromJson(listTodosJson[i]));
-//     }
-//     return listTodos;
-//   } else {
-//     throw Exception('Failed to load Todos');
-//   }
-
-Future<List<Todo>> fetchTodos() async {
-  await Future.delayed(Duration(seconds: 2));
-
-  String jsonBody = mockedJson();
-
-  List listTodosJson = jsonDecode(jsonBody);
-  List<Todo> listTodos = [];
-  for (int i = 0; i < listTodosJson.length; i++) {
-    listTodos.add(Todo.fromJson(listTodosJson[i]));
-  }
-  return listTodos;
-}
-
-String mockedJson() {
-  return """[
+[
     {
       "userId": 1,
       "id": 1,
-      "title": "tiago",
+      "title": "delectus aut autem",
       "completed": false
     },
     {
@@ -1301,5 +1199,4 @@ String mockedJson() {
       "title": "ipsam aperiam voluptates qui",
       "completed": false
     }
-  ]""";
-}
+  ]
